@@ -1,0 +1,104 @@
+<!-- <p>user-form works!</p> -->
+<div>
+    <h2>User Information</h2>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+  
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob" [(ngModel)]="user.dob" required>
+  
+      <label for="profession">Profession:</label>
+      <select id="profession" name="profession" [(ngModel)]="user.profession" required>
+        <option value="" disabled selected>Select a profession</option>
+        <option value="engineer">Engineer</option>
+        <option value="doctor">Doctor</option>
+        <option value="teacher">Teacher</option>
+        <option value="student">Student</option>
+        <option value="Photographer">Photographer</option>
+        <option value="Dancer">Dancer</option>
+        <option value="actor">Actor</option>
+        <option value="singer">Singer</option>
+        <option value="Clerk">Clerk</option>
+        <option value="other">Other</option>
+      </select>
+  
+      <label for="hobbies">Hobbies:</label>
+      <select id="hobbies" name="hobbies" [(ngModel)]="user.hobbies" multiple required>
+        <option value="reading">Reading</option>
+        <option value="traveling">Traveling</option>
+        <option value="sports">Sports</option>
+        <option value="music">Music</option>
+        <option value="Gardening">Gardening</option>
+        <option value="Drawing">Drawing</option>
+        <option value="Kniting">Kniting</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Photography">Photography</option>
+        <option value="Writing">Writing</option>
+        <option value="Dancing">Dancing</option>
+
+      </select>
+  
+      <label for="image">Image:</label>
+      <input type="file" id="image" name="image" (change)="onFileChange($event)" accept="image/*" required>
+  
+      <button type="submit" [disabled]="userForm.invalid">Save</button>
+      <button type="button" (click)="showEditList()">Edit</button>
+      <button type="button" (click)="showUserList()">Print</button>
+    </form>
+  
+
+
+    <div *ngIf="showUserListModal">
+      <h3>Select User for Printing</h3>
+      <ul>
+        <li *ngFor="let user of usersArray">
+          <button (click)="selectUserForPrint(user)">{{ user.name }}</button>
+        </li>
+      </ul>
+      <button (click)="hideUserList()">Close</button>
+    </div>
+
+
+    <div *ngIf="showEditModal">
+      <h3>Edit User</h3>
+      <ul>
+        <li *ngFor="let user of usersArray">
+          <button (click)="selectUserForEdit(user)">{{ user.name }}</button>
+        </li>
+      </ul>
+      <div *ngIf="selectedUserForEdit">
+        <h4>Edit {{ selectedUserForEdit.name }}</h4>
+        <form (ngSubmit)="updateUser()">
+          <label for="editName">Name:</label>
+          <input type="text" id="editName" name="editName" [(ngModel)]="selectedUserForEdit.name" required>
+  
+          <label for="editDob">Date of Birth:</label>
+          <input type="date" id="editDob" name="editDob" [(ngModel)]="selectedUserForEdit.dob" required>
+  
+          <label for="editProfession">Profession:</label>
+          <input type="text" id="editProfession" name="editProfession" [(ngModel)]="selectedUserForEdit.profession" required>
+  
+          <label for="editHobbies">Hobbies:</label>
+          <input type="text" id="editHobbies" name="editHobbies" [(ngModel)]="selectedUserForEdit.hobbies" required>
+  
+          <label for="editImage">Image:</label>
+          <input type="file" id="editImage" name="editImage" (change)="onEditFileChange($event)" accept="image/*" required>
+  
+          <button type="submit">Update</button>
+        </form>
+      </div>
+      <button (click)="hideEditList()">Close</button>
+    </div>
+  
+    <div #pdfContent>
+      <!-- <h4>User Information</h4>
+      <ul>
+        <li><strong>Name:</strong> {{ selectedUserForEdit?.name }}</li>
+        <li><strong>Date of Birth:</strong> {{ selectedUserForEdit?.dob }}</li>
+        <li><strong>Profession:</strong> {{ selectedUserForEdit?.profession }}</li>
+        <li><strong>Hobbies:</strong> {{ selectedUserForEdit?.hobbies }}</li>
+      </ul> -->
+    </div>
+  </div>
+  
